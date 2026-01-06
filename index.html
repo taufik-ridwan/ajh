@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAJAH Form Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Pastel Green Material Palette */
+            --primary-color: #66BB6A;       /* Green 400 */
+            --primary-dark: #43A047;        /* Green 600 */
+            --primary-light: #C8E6C9;       /* Green 100 */
+            --accent-color: #26A69A;        /* Teal 400 */
+            --bg-gradient-start: #E8F5E9;   /* Green 50 */
+            --bg-gradient-end: #C8E6C9;     /* Green 100 */
+            --text-primary: #2E3B32;
+            --text-secondary: #546E58;
+            --danger-color: #EF5350;        /* Red 400 */
+            --white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, #A5D6A7 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #1B5E20; /* Dark Green */
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            font-size: 15px;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s ease;
+            background-color: #FAFAFA;
+            color: #333;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.15);
+        }
+
+        input::placeholder {
+            color: #BDBDBD;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Checkbox Styling */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Divider */
+        hr {
+            margin: 30px 0;
+            border: none;
+            height: 1px;
+            background: #E0E0E0;
+        }
+        
+        /* Patient Card Styling */
+        .patient-section {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #E8F5E9;
+            border-left: 6px solid var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .patient-section:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .patient-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #E0E0E0;
+        }
+        
+        .patient-number {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Buttons */
+        .btn {
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .remove-btn {
+            background: #FFEBEE; /* Light Red */
+            color: var(--danger-color);
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .remove-btn:hover {
+            background: var(--danger-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(239, 83, 80, 0.3);
+        }
+        
+        .add-patient-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px dashed var(--primary-color);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .add-patient-btn:hover {
+            background: #F1F8E9;
+            transform: translateY(-1px);
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
+            margin-bottom: 20px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 187, 106, 0.5);
+            filter: brightness(1.05);
+        }
+        
+        /* Output Section */
+        .output-section {
+            display: none;
+            background: #FAFAFA;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border: 1px solid #E0E0E0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .output-title {
+            font-weight: 700;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .copy-btn.copied {
+            background: #43A047;
+        }
+        
+        .output-text {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid #E0E0E0;
+            max-height: 500px;
+            overflow-y: auto;
+            color: #424242;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 BAJAH Form Generator</h1>
+        <p class="subtitle">Generator form untuk rencana BAJAH dengan panduan USG</p>
+        
+        <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; text-transform: none; color: #333;">
+                <input type="checkbox" id="ajhCheckbox" onchange="toggleAJHMode()">
+                <span style="font-size: 15px; font-weight: 500;">AJH Guided RSS Mode</span>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Tanggal</label>
+            <input type="date" id="dateInput" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Lokasi</label>
+            <select id="locationInput">
+                <option value="ICC">ICC</option>
+                <option value="Radiologi">Radiologi</option>
+            </select>
+        </div>
+        
+        <div class="row">
+            <div class="form-group">
+                <label>Inisial Senior</label>
+                <input type="text" id="seniorInput" placeholder="DN" maxlength="5">
+            </div>
+            <div class="form-group">
+                <label>Inisial Asisten</label>
+                <input type="text" id="assistantInput" placeholder="CH" maxlength="5">
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div id="patientsContainer"></div>
+        
+        <button class="btn add-patient-btn" onclick="addPatient()">➕ Tambah Pasien</button>
+        
+        <button class="btn generate-btn" onclick="generateOutput()">🚀 Generate Output</button>
+        
+        <div class="output-section" id="outputSection">
+            <div class="output-header">
+                <span class="output-title">📄 Output</span>
+                <button class="btn copy-btn" id="copyBtn" onclick="copyToClipboard()">📋 Salin ke Clipboard</button>
+            </div>
+            <div class="output-text" id="outputText"></div>
+        </div>
+    </div>
+
+    <script>
+        let patientCount = 0;
+        
+        function addPatient() {
+            patientCount++;
+            const container = document.getElementById('patientsContainer');
+            const patientDiv = document.createElement('div');
+            patientDiv.className = 'patient-section';
+            patientDiv.id = `patient-${patientCount}`;
+            
+            const isAJH = document.getElementById('ajhCheckbox').checked;
+            const bynameDisabled = isAJH ? '' : 'disabled';
+            
+            patientDiv.innerHTML = `
+                <div class="patient-header">
+                    <span class="patient-number">Pasien <span class="patient-num">${patientCount}</span></span>
+                    <button class="btn remove-btn" onclick="removePatient(${patientCount})">🗑️ Hapus</button>
+                </div>
+                <div class="form-group">
+                    <label>Nama Pasien</label>
+                    <input type="text" id="name-${patientCount}" placeholder="Ny. Umi Nurqoriah">
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Usia</label>
+                        <input type="number" id="age-${patientCount}" placeholder="49" min="0" max="150">
+                    </div>
+                    <div class="form-group">
+                        <label>No. Rekam Medis</label>
+                        <input type="text" id="mr-${patientCount}" placeholder="02336084">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Diagnosis</label>
+                    <input type="text" id="diagnosis-${patientCount}" placeholder="tumor mammae sinistra klinis ganas">
+                </div>
+                <div class="form-group">
+                    <label>Regio</label>
+                    <input type="text" id="regio-${patientCount}" placeholder="mammae sinistra">
+                </div>
+                <div class="form-group">
+                    <label>Waktu Tindakan</label>
+                    <input type="time" id="time-${patientCount}" value="11:00">
+                </div>
+                <div class="form-group">
+                    <label>Dokter Konsulen</label>
+                    <select id="doctor-${patientCount}">
+                        <option value="dr. Paranita Ferronika, Ph.D, Sp.PA (K)">dr. Paranita Ferronika, Ph.D, Sp.PA (K)</option>
+                        <option value="dr. Hanggoro Tri Rinonce, Ph.D, Sp.PA (K)">dr. Hanggoro Tri Rinonce, Ph.D, Sp.PA (K)</option>
+                        <option value="dr. Didik Setyo Heriyanto, Ph.D, Sp.PA (K)">dr. Didik Setyo Heriyanto, Ph.D, Sp.PA (K)</option>
+                        <option value="dr. Ery Kus Dwianingsih, Ph.D, Sp.PA (K)">dr. Ery Kus Dwianingsih, Ph.D, Sp.PA (K)</option>
+                        <option value="dr. Dewiyani Indah Widasari, Ph.D, Sp.PA (K)">dr. Dewiyani Indah Widasari, Ph.D, Sp.PA (K)</option>
+                        <option value="Dr. dr. Indrawati, Sp.PA (K)">Dr. dr. Indrawati, Sp.PA (K)</option>
+                        <option value="Prof. Dr. dr. Irianiwati, Sp.PA(K)">Prof. Dr. dr. Irianiwati, Sp.PA (K)</option>
+                        <option value="dr. Setiyani Puji Lestari, Sp.PA">dr. Setiyani Puji Lestari, Sp.PA</option>
+                        <option value="dr. Naomi Yoshuantari, Sp.PA (K)">dr. Naomi Yoshuantari, Sp.PA (K)</option>
+                        <option value="dr. Auliya Suluk Brilliant Sumpono, Sp.PA (K)">dr. Auliya Suluk Brilliant Sumpono, Sp.PA (K)</option>
+                        <option value="dr. Faizah Dwi Tirtasari, Sp.PA">dr. Faizah Dwi Tirtasari, Sp.PA</option>
+                        <option value="Dr. dr. Rita Cempaka, Sp.PA (K)">Dr. dr. Rita Cempaka, Sp.PA (K)</option>
+                    </select>
+                </div>
+                <div class="form-group byname-section-${patientCount}">
+                    <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; text-transform: none;">
+                        <input type="checkbox" id="byname-check-${patientCount}" onchange="toggleByName(${patientCount})" ${bynameDisabled}>
+                        <span style="font-size: 14px; font-weight: 500; color: #555;">By Name</span>
+                    </label>
+                </div>
+                <div class="form-group byname-dropdown-${patientCount}" id="byname-dropdown-${patientCount}" style="display: none;">
+                    <label>Pilih Radiolog</label>
+                    <select id="byname-${patientCount}" ${bynameDisabled}>
+                        <option value="Prof. Dr. dr. Lina Choridah, Sp.Rad (K)">Prof. Dr. dr. Lina Choridah, Sp.Rad (K)</option>
+                        <option value="dr. Afif Rahman, Sp.Rad(K)-RI">dr. Afif Rahman, Sp.Rad(K)-RI</option>
+                        <option value="dr. Naela Himayati Afifah, M.Sc.,Sp.Rad">dr. Naela Himayati Afifah, M.Sc.,Sp.Rad</option>
+                        <option value="Tidak by name">Tidak by name</option>
+                    </select>
+                </div>
+            `;
+            
+            container.appendChild(patientDiv);
+            updatePatientNumbers();
+        }
+        
+        function removePatient(id) {
+            const patient = document.getElementById(`patient-${id}`);
+            if (patient) {
+                patient.remove();
+                updatePatientNumbers();
+            }
+        }
+        
+        function updatePatientNumbers() {
+            const patients = document.querySelectorAll('.patient-section');
+            patients.forEach((patient, index) => {
+                const numSpan = patient.querySelector('.patient-num');
+                if (numSpan) {
+                    numSpan.textContent = index + 1;
+                }
+            });
+        }
+        
+        function toggleByName(id) {
+            const checkbox = document.getElementById(`byname-check-${id}`);
+            const dropdown = document.getElementById(`byname-dropdown-${id}`);
+            if (checkbox.checked) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+        
+        function toggleAJHMode() {
+            const isAJH = document.getElementById('ajhCheckbox').checked;
+            
+            for (let i = 1; i <= patientCount; i++) {
+                const checkbox = document.getElementById(`byname-check-${i}`);
+                const dropdown = document.getElementById(`byname-${i}`);
+                
+                if (checkbox) {
+                    if (isAJH) {
+                        checkbox.disabled = false;
+                        if (dropdown) dropdown.disabled = false;
+                    } else {
+                        checkbox.disabled = true;
+                        checkbox.checked = false;
+                        if (dropdown) {
+                            dropdown.disabled = true;
+                        }
+                        const dropdownDiv = document.getElementById(`byname-dropdown-${i}`);
+                        if (dropdownDiv) dropdownDiv.style.display = 'none';
+                    }
+                }
+            }
+        }
+        
+        function formatDate(dateStr) {
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const date = new Date(dateStr + 'T00:00:00');
+            const dayName = days[date.getDay()];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            
+            return `${dayName}, ${day} ${month} ${year}`;
+        }
+        
+        function generateOutput() {
+            const dateInput = document.getElementById('dateInput').value;
+            const location = document.getElementById('locationInput').value;
+            const senior = document.getElementById('seniorInput').value;
+            const assistant = document.getElementById('assistantInput').value;
+            const isAJH = document.getElementById('ajhCheckbox').checked;
+            
+            if (!dateInput) {
+                alert('Mohon isi tanggal terlebih dahulu!');
+                return;
+            }
+            
+            const patients = [];
+            for (let i = 1; i <= patientCount; i++) {
+                const patientDiv = document.getElementById(`patient-${i}`);
+                if (patientDiv) {
+                    const name = document.getElementById(`name-${i}`).value;
+                    const age = document.getElementById(`age-${i}`).value;
+                    const mr = document.getElementById(`mr-${i}`).value;
+                    const diagnosis = document.getElementById(`diagnosis-${i}`).value;
+                    const regio = document.getElementById(`regio-${i}`).value;
+                    const time = document.getElementById(`time-${i}`).value;
+                    const doctor = document.getElementById(`doctor-${i}`).value;
+                    const bynameCheck = document.getElementById(`byname-check-${i}`).checked;
+                    const byname = bynameCheck ? document.getElementById(`byname-${i}`).value : null;
+                    
+                    if (name && age && mr && diagnosis && regio && time && doctor) {
+                        patients.push({ name, age, mr, diagnosis, regio, time, doctor, byname });
+                    }
+                }
+            }
+            
+            if (patients.length === 0) {
+                alert('Mohon tambahkan minimal 1 pasien dengan data lengkap!');
+                return;
+            }
+            
+            const formattedDate = formatDate(dateInput);
+            const greeting = isAJH ? 'Selamat sore Mas dan Mbak' : 'Selanjutnya';
+            let output = `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${location}, ada ${patients.length} pasien:\n`;
+            
+            if (isAJH) {
+                const groupedByDoctor = {};
+                patients.forEach((patient) => {
+                    if (!groupedByDoctor[patient.doctor]) {
+                        groupedByDoctor[patient.doctor] = [];
+                    }
+                    groupedByDoctor[patient.doctor].push(patient);
+                });
+                
+                let patientNumber = 1;
+                const doctorGroups = Object.keys(groupedByDoctor);
+                
+                doctorGroups.forEach((doctor, groupIndex) => {
+                    const group = groupedByDoctor[doctor];
+                    
+                    group.forEach((patient) => {
+                        output += `${patientNumber}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
+                        output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
+                        patientNumber++;
+                    });
+                    
+                    output += `\nRencana tindakan pukul ${group[0].time} WIB\n\n`;
+                    output += `Konsulen: ${doctor}\n`;
+                    
+                    if (group[0].byname) {
+                        if (group[0].byname === 'Tidak by name') {
+                            output += `Tidak by name\n`;
+                        } else {
+                            output += `By name ${group[0].byname}\n`;
+                        }
+                    }
+                    
+                    if (groupIndex < doctorGroups.length - 1) {
+                        output += `\n`;
+                    }
+                });
+                
+                output += `\nSenior: ${senior}\n`;
+                output += `Asisten: ${assistant}`;
+                
+            } else {
+                patients.forEach((patient, index) => {
+                    output += `${index + 1}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
+                    output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
+                    output += `Rencana tindakan pukul ${patient.time} WIB\n`;
+                    output += `Konsulen: ${patient.doctor}\n`;
+                    
+                    if (patient.byname) {
+                        if (patient.byname === 'Tidak by name') {
+                            output += `Tidak by name\n`;
+                        } else {
+                            output += `By name ${patient.byname}\n`;
+                        }
+                    }
+                    
+                    output += `Senior: ${senior}\n`;
+                    output += `Asisten: ${assistant}\n`;
+                    if (index < patients.length - 1) {
+                        output += '';
+                    }
+                });
+            }
+            
+            document.getElementById('outputText').textContent = output;
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(outputText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✅ Tersalin!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 Salin ke Clipboard';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('Gagal menyalin: ' + err);
+            });
+        }
+        
+        addPatient();
+    </script>
+</body>
+</html>
+
+```
