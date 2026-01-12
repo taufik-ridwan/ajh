@@ -4,99 +4,148 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BAJAH Form Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Pastel Green Material Palette */
-            --primary-color: #66BB6A;       /* Green 400 */
-            --primary-dark: #43A047;        /* Green 600 */
-            --primary-light: #C8E6C9;       /* Green 100 */
-            --accent-color: #26A69A;        /* Teal 400 */
-            --bg-gradient-start: #E8F5E9;   /* Green 50 */
-            --bg-gradient-end: #C8E6C9;     /* Green 100 */
-            --text-primary: #2E3B32;
-            --text-secondary: #546E58;
-            --danger-color: #EF5350;        /* Red 400 */
-            --white: #ffffff;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+            /* Professional Medical/SaaS Palette */
+            --primary: #0f766e;        /* Deep Teal */
+            --primary-hover: #115e59;
+            --primary-light: #f0fdfa;
+            
+            --bg-body: #f1f5f9;        /* Slate 100 */
+            --bg-card: #ffffff;
+            --bg-input: #ffffff;
+            
+            --border-color: #e2e8f0;   /* Slate 200 */
+            --border-focus: #0f766e;
+            
+            --text-main: #1e293b;      /* Slate 800 */
+            --text-muted: #64748b;     /* Slate 500 */
+            
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
+            
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
         
         body {
-            font-family: 'Roboto', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, #A5D6A7 100%);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 40px 20px;
             min-height: 100vh;
-            padding: 20px;
-            color: var(--text-primary);
         }
         
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            background: var(--white);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            padding: 40px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
         }
         
-        h1 {
-            color: #1B5E20; /* Dark Green */
-            margin-bottom: 8px;
-            font-size: 28px;
-            font-weight: 500;
-            letter-spacing: -0.5px;
+        /* Header Section */
+        .header-section {
+            padding: 24px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            color: var(--text-main);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.025em;
         }
         
         .subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 35px;
-            font-size: 15px;
-            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .import-btn {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .import-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Content Section */
+        .content-padding {
+            padding: 40px;
         }
         
         .form-group {
-            margin-bottom: 24px;
-            position: relative;
+            margin-bottom: 20px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
+            margin-bottom: 6px;
+            color: var(--text-main);
             font-weight: 500;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+        
+        .label-hint {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 400;
+            margin-left: 4px;
         }
         
         input, select {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #E0E0E0;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: 'Roboto', sans-serif;
-            transition: all 0.3s ease;
-            background-color: #FAFAFA;
-            color: #333;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-input);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
         
         input:focus, select:focus {
             outline: none;
-            border-color: var(--primary-color);
-            background-color: var(--white);
-            box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.15);
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
         }
 
         input::placeholder {
-            color: #BDBDBD;
+            color: #94a3b8;
         }
         
         .row {
@@ -105,37 +154,58 @@
             gap: 20px;
         }
         
-        /* Checkbox Styling */
+        .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Checkbox styling */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: var(--bg-body);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-wrapper:hover {
+            border-color: #cbd5e1;
+        }
+
         input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-color);
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
             cursor: pointer;
         }
 
         /* Divider */
         hr {
-            margin: 30px 0;
+            margin: 32px 0;
             border: none;
             height: 1px;
-            background: #E0E0E0;
+            background: var(--border-color);
         }
         
         /* Patient Card Styling */
         .patient-section {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #E8F5E9;
-            border-left: 6px solid var(--primary-color);
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            transition: box-shadow 0.2s;
         }
 
         .patient-section:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+            border-color: #cbd5e1;
         }
         
         .patient-header {
@@ -143,91 +213,98 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #E0E0E0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        .patient-number {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 18px;
-            letter-spacing: 0.5px;
+        .patient-title {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .patient-badge {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-weight: 600;
         }
         
         /* Buttons */
         .btn {
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            transition: all 0.2s;
         }
 
         .remove-btn {
-            background: #FFEBEE; /* Light Red */
-            color: var(--danger-color);
-            padding: 8px 16px;
-            font-size: 13px;
+            background: transparent;
+            color: var(--danger);
+            padding: 6px 12px;
+            border: 1px solid transparent;
         }
         
         .remove-btn:hover {
-            background: var(--danger-color);
-            color: white;
-            box-shadow: 0 4px 8px rgba(239, 83, 80, 0.3);
+            background: var(--danger-bg);
+            border-color: #fecaca;
         }
         
         .add-patient-btn {
             width: 100%;
-            padding: 16px;
-            background: var(--white);
-            color: var(--primary-color);
-            border: 2px dashed var(--primary-color);
-            font-size: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            background: white;
+            color: var(--primary);
+            border: 1px dashed var(--primary);
+            margin-bottom: 24px;
+            font-weight: 600;
         }
         
         .add-patient-btn:hover {
-            background: #F1F8E9;
-            transform: translateY(-1px);
+            background: var(--primary-light);
+            border-style: solid;
         }
         
         .generate-btn {
             width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            padding: 14px;
+            background-color: var(--text-main); /* Dark Slate */
             color: white;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4);
-            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
         }
         
         .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 187, 106, 0.5);
-            filter: brightness(1.05);
+            background-color: #0f172a;
+            transform: translateY(-1px);
         }
         
         /* Output Section */
         .output-section {
             display: none;
-            background: #FAFAFA;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 30px;
-            border: 1px solid #E0E0E0;
-            animation: fadeIn 0.5s ease;
+            background: var(--bg-body);
+            padding: 24px;
+            border-radius: var(--radius-md);
+            margin-top: 32px;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -235,107 +312,115 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
         
         .output-title {
-            font-weight: 700;
-            color: #333;
-            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 16px;
         }
         
         .copy-btn {
-            background: var(--primary-color);
-            color: white;
-            padding: 10px 20px;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: white;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            font-size: 13px;
         }
         
         .copy-btn:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-color: #94a3b8;
+            background: #f8fafc;
         }
         
         .copy-btn.copied {
-            background: #43A047;
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
         
         .output-text {
             background: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
             font-size: 13px;
             line-height: 1.6;
-            border: 1px solid #E0E0E0;
+            border: 1px solid var(--border-color);
             max-height: 500px;
             overflow-y: auto;
-            color: #424242;
+            color: #334155;
         }
 
         /* Mobile Responsive */
         @media (max-width: 600px) {
-            .row {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 20px;
-            }
+            body { padding: 10px; }
+            .header-section { padding: 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .content-padding { padding: 24px; }
+            .row, .row-3 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>BAJAH Form Generator</h1>
-        <p class="subtitle">Generator form untuk rencana BAJAH dengan panduan USG</p>
-        
-        <div class="form-group">
-            <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; text-transform: none; color: #333;">
-                <input type="checkbox" id="ajhCheckbox" onchange="toggleAJHMode()">
-                <span style="font-size: 15px; font-weight: 500;">AJH Guided RSS Mode</span>
-            </label>
+        <div class="header-section">
+            <div class="header-title">
+                <h1>BAJAH Form Generator</h1>
+                <p class="subtitle">Generator form untuk rencana BAJAH dengan panduan USG</p>
+            </div>
+            
+            <!-- Hidden File Input -->
+            <input type="file" id="fileInput" accept=".jadwal,.json" style="display: none;" onchange="handleFileUpload(this)">
+            
+            <button class="import-btn" onclick="triggerFileUpload()">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Import .jadwal
+            </button>
         </div>
         
-        <div class="form-group">
-            <label>Tanggal</label>
-            <input type="date" id="dateInput" required>
-        </div>
-        
-        <div class="form-group">
-            <label>Lokasi</label>
-            <select id="locationInput">
-                <option value="ICC">ICC</option>
-                <option value="Radiologi">Radiologi</option>
-            </select>
-        </div>
-        
-        <div class="row">
+        <div class="content-padding">
             <div class="form-group">
-                <label>Inisial Senior</label>
-                <input type="text" id="seniorInput" placeholder="DN" maxlength="5">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="ajhCheckbox" onchange="toggleAJHMode()">
+                    <span>Mode AJH Guided RSS <span style="color:var(--text-muted); font-weight:400; font-size:13px;">(Format khusus)</span></span>
+                </label>
             </div>
+            
             <div class="form-group">
-                <label>Inisial Asisten</label>
-                <input type="text" id="assistantInput" placeholder="CH" maxlength="5">
+                <label>Tanggal Tindakan</label>
+                <input type="date" id="dateInput" required>
             </div>
-        </div>
-        
-        <hr>
-        
-        <div id="patientsContainer"></div>
-        
-        <button class="btn add-patient-btn" onclick="addPatient()">➕ Tambah Pasien</button>
-        
-        <button class="btn generate-btn" onclick="generateOutput()">Generate Output</button>
-        
-        <div class="output-section" id="outputSection">
-            <div class="output-header">
-                <span class="output-title">📄 Output</span>
-                <button class="btn copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy ke Clipboard</button>
+            
+            <div style="display: flex; align-items: center; gap: 12px; margin: 32px 0;">
+                <div style="flex:1; height:1px; background:var(--border-color);"></div>
+                <span style="font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Daftar Pasien</span>
+                <div style="flex:1; height:1px; background:var(--border-color);"></div>
             </div>
-            <div class="output-text" id="outputText"></div>
+            
+            <div id="patientsContainer"></div>
+            
+            <button class="btn add-patient-btn" onclick="addPatient()">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Tambah Pasien Manual
+            </button>
+            
+            <button class="btn generate-btn" onclick="generateOutput()">Generate Output</button>
+            
+            <div class="output-section" id="outputSection">
+                <div class="output-header">
+                    <span class="output-title">Hasil Output</span>
+                    <button class="btn copy-btn" id="copyBtn" onclick="copyToClipboard()">
+                        <span id="copyIcon">📋</span> Salin Teks
+                    </button>
+                </div>
+                <div class="output-text" id="outputText"></div>
+            </div>
         </div>
     </div>
 
@@ -354,16 +439,19 @@
             
             patientDiv.innerHTML = `
                 <div class="patient-header">
-                    <span class="patient-number">Pasien <span class="patient-num">${patientCount}</span></span>
-                    <button class="btn remove-btn" onclick="removePatient(${patientCount})">🗑️ Hapus</button>
+                    <div class="patient-title">
+                        <span class="patient-badge">#${patientCount}</span>
+                        <span>Data Pasien</span>
+                    </div>
+                    <button class="btn remove-btn" onclick="removePatient(${patientCount})">Hapus</button>
                 </div>
                 <div class="form-group">
                     <label>Nama Pasien</label>
-                    <input type="text" id="name-${patientCount}" placeholder="Ny. Umi Nurqoriah">
+                    <input type="text" id="name-${patientCount}" placeholder="Contoh: Ny. Umi Nurqoriah">
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label>Usia</label>
+                        <label>Usia <span class="label-hint">(Tahun)</span></label>
                         <input type="number" id="age-${patientCount}" placeholder="49" min="0" max="150">
                     </div>
                     <div class="form-group">
@@ -372,20 +460,44 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Diagnosis</label>
-                    <input type="text" id="diagnosis-${patientCount}" placeholder="tumor mammae sinistra klinis ganas">
+                    <label>Diagnosis Klinis</label>
+                    <input type="text" id="diagnosis-${patientCount}" placeholder="Contoh: tumor mammae sinistra klinis ganas">
                 </div>
                 <div class="form-group">
-                    <label>Regio</label>
-                    <input type="text" id="regio-${patientCount}" placeholder="mammae sinistra">
+                    <label>Regio / Lokasi</label>
+                    <input type="text" id="regio-${patientCount}" placeholder="Contoh: mammae sinistra">
                 </div>
-                <div class="form-group">
-                    <label>Waktu Tindakan</label>
-                    <input type="time" id="time-${patientCount}" value="11:00">
+                <div class="row">
+                    <div class="form-group">
+                        <label>Waktu Tindakan</label>
+                        <input type="time" id="time-${patientCount}" value="11:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Lokasi USG</label>
+                        <select id="location-${patientCount}">
+                            <option value="Radiologi">Radiologi</option>
+                            <option value="ICC">ICC</option>
+                            <option value="GBST">GBST</option>
+                            <option value="Cendrawasih">Cendrawasih</option>
+                            <option value="PJT lt.4">PJT lt.4</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label>Inisial Senior</label>
+                        <input type="text" id="senior-${patientCount}" placeholder="Contoh: DN" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>Inisial Asisten</label>
+                        <input type="text" id="assistant-${patientCount}" placeholder="Contoh: CH" maxlength="5">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Dokter Konsulen</label>
                     <select id="doctor-${patientCount}">
+                        <option value="dr. Faizah Dwi Tirtasari, Sp.PA">dr. Faizah Dwi Tirtasari, Sp.PA</option>
                         <option value="dr. Paranita Ferronika, Ph.D, Sp.PA (K)">dr. Paranita Ferronika, Ph.D, Sp.PA (K)</option>
                         <option value="dr. Hanggoro Tri Rinonce, Ph.D, Sp.PA (K)">dr. Hanggoro Tri Rinonce, Ph.D, Sp.PA (K)</option>
                         <option value="dr. Didik Setyo Heriyanto, Ph.D, Sp.PA (K)">dr. Didik Setyo Heriyanto, Ph.D, Sp.PA (K)</option>
@@ -396,17 +508,16 @@
                         <option value="dr. Setiyani Puji Lestari, Sp.PA">dr. Setiyani Puji Lestari, Sp.PA</option>
                         <option value="dr. Naomi Yoshuantari, Sp.PA (K)">dr. Naomi Yoshuantari, Sp.PA (K)</option>
                         <option value="dr. Auliya Suluk Brilliant Sumpono, Sp.PA (K)">dr. Auliya Suluk Brilliant Sumpono, Sp.PA (K)</option>
-                        <option value="dr. Faizah Dwi Tirtasari, Sp.PA">dr. Faizah Dwi Tirtasari, Sp.PA</option>
                         <option value="Dr. dr. Rita Cempaka, Sp.PA (K)">Dr. dr. Rita Cempaka, Sp.PA (K)</option>
                     </select>
                 </div>
                 <div class="form-group byname-section-${patientCount}">
-                    <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; text-transform: none;">
+                    <label class="checkbox-wrapper" style="width: fit-content; background: transparent; padding-left: 0; border: none;">
                         <input type="checkbox" id="byname-check-${patientCount}" onchange="toggleByName(${patientCount})" ${bynameDisabled}>
-                        <span style="font-size: 14px; font-weight: 500; color: #555;">By Name</span>
+                        <span>Request By Name</span>
                     </label>
                 </div>
-                <div class="form-group byname-dropdown-${patientCount}" id="byname-dropdown-${patientCount}" style="display: none;">
+                <div class="form-group byname-dropdown-${patientCount}" id="byname-dropdown-${patientCount}" style="display: none; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
                     <label>Pilih Radiolog</label>
                     <select id="byname-${patientCount}" ${bynameDisabled}>
                         <option value="Prof. Dr. dr. Lina Choridah, Sp.Rad (K)">Prof. Dr. dr. Lina Choridah, Sp.Rad (K)</option>
@@ -432,9 +543,9 @@
         function updatePatientNumbers() {
             const patients = document.querySelectorAll('.patient-section');
             patients.forEach((patient, index) => {
-                const numSpan = patient.querySelector('.patient-num');
-                if (numSpan) {
-                    numSpan.textContent = index + 1;
+                const badge = patient.querySelector('.patient-badge');
+                if (badge) {
+                    badge.textContent = `#${index + 1}`;
                 }
             });
         }
@@ -473,6 +584,89 @@
             }
         }
         
+        // --- File Upload & JSON Logic ---
+        
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                processJSONData(content);
+                // Reset value so if the same file is selected again, the event triggers
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function processJSONData(jsonText) {
+            if (!jsonText.trim()) return;
+
+            try {
+                const data = JSON.parse(jsonText);
+                
+                // Filter only BAJAH
+                const bajahPatients = data.filter(item => item.tindakan === "BAJAH");
+
+                if (bajahPatients.length === 0) {
+                    alert('Tidak ditemukan data dengan tindakan "BAJAH" dalam file tersebut.');
+                    return;
+                }
+
+                // Clear existing patients
+                document.getElementById('patientsContainer').innerHTML = '';
+                patientCount = 0;
+
+                // Set Global Info (Date)
+                const first = bajahPatients[0];
+                if (first.tanggal) document.getElementById('dateInput').value = first.tanggal;
+
+                // Populate Individual Patients
+                bajahPatients.forEach(item => {
+                    addPatient(); // This increments patientCount
+                    const idx = patientCount;
+
+                    document.getElementById(`name-${idx}`).value = item.nama || '';
+                    document.getElementById(`age-${idx}`).value = item.usia || '';
+                    document.getElementById(`mr-${idx}`).value = item.norm || '';
+                    document.getElementById(`diagnosis-${idx}`).value = item.diagnosis || '';
+                    document.getElementById(`regio-${idx}`).value = item.regio || '';
+                    document.getElementById(`time-${idx}`).value = item.jam || '11:00';
+                    document.getElementById(`senior-${idx}`).value = item.senior || '';
+                    document.getElementById(`assistant-${idx}`).value = item.asisten || '';
+                    
+                    // Set Location per patient
+                    const locSelect = document.getElementById(`location-${idx}`);
+                    const locOptions = Array.from(locSelect.options);
+                    const matchingLoc = locOptions.find(opt => opt.value === item.lokasi);
+                    if (matchingLoc) {
+                        locSelect.value = item.lokasi;
+                    }
+
+                    // Try to match doctor
+                    const doctorSelect = document.getElementById(`doctor-${idx}`);
+                    const options = Array.from(doctorSelect.options);
+                    const matchingOption = options.find(opt => opt.value === item.konsulen);
+                    if (matchingOption) {
+                        doctorSelect.value = item.konsulen;
+                    }
+                });
+
+                alert(`Berhasil mengimport ${bajahPatients.length} pasien BAJAH.`);
+
+            } catch (e) {
+                alert('Format file tidak valid! Pastikan isi file adalah JSON yang valid.');
+                console.error(e);
+            }
+        }
+
+        // --- Output Generation Logic ---
+
         function formatDate(dateStr) {
             const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
             const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
@@ -489,9 +683,6 @@
         
         function generateOutput() {
             const dateInput = document.getElementById('dateInput').value;
-            const location = document.getElementById('locationInput').value;
-            const senior = document.getElementById('seniorInput').value;
-            const assistant = document.getElementById('assistantInput').value;
             const isAJH = document.getElementById('ajhCheckbox').checked;
             
             if (!dateInput) {
@@ -509,84 +700,137 @@
                     const diagnosis = document.getElementById(`diagnosis-${i}`).value;
                     const regio = document.getElementById(`regio-${i}`).value;
                     const time = document.getElementById(`time-${i}`).value;
+                    const location = document.getElementById(`location-${i}`).value;
+                    const senior = document.getElementById(`senior-${i}`).value;
+                    const assistant = document.getElementById(`assistant-${i}`).value;
                     const doctor = document.getElementById(`doctor-${i}`).value;
                     const bynameCheck = document.getElementById(`byname-check-${i}`).checked;
                     const byname = bynameCheck ? document.getElementById(`byname-${i}`).value : null;
                     
-                    if (name && age && mr && diagnosis && regio && time && doctor) {
-                        patients.push({ name, age, mr, diagnosis, regio, time, doctor, byname });
+                    if (name) {
+                        patients.push({ name, age, mr, diagnosis, regio, time, location, senior, assistant, doctor, byname });
                     }
                 }
             }
             
             if (patients.length === 0) {
-                alert('Mohon tambahkan minimal 1 pasien dengan data lengkap!');
+                alert('Mohon tambahkan minimal 1 pasien!');
                 return;
             }
             
             const formattedDate = formatDate(dateInput);
             const greeting = isAJH ? 'Selamat sore Mas dan Mbak' : 'Selanjutnya';
-            let output = `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${location}, ada ${patients.length} pasien:\n`;
+            let output = '';
+
+            // Helper to format location for output (Radiologi -> radiologi)
+            const formatLoc = (l) => l === 'Radiologi' ? 'radiologi' : l;
             
             if (isAJH) {
-                const groupedByDoctor = {};
-                patients.forEach((patient) => {
-                    if (!groupedByDoctor[patient.doctor]) {
-                        groupedByDoctor[patient.doctor] = [];
-                    }
-                    groupedByDoctor[patient.doctor].push(patient);
+                // --- AJH Mode Logic (Grouped by Location -> Then by Doctor) ---
+                
+                // 1. Group by Location
+                const groupedByLocation = {};
+                patients.forEach(p => {
+                    const loc = p.location || 'Lokasi Belum Diisi';
+                    if (!groupedByLocation[loc]) groupedByLocation[loc] = [];
+                    groupedByLocation[loc].push(p);
                 });
+
+                const locationKeys = Object.keys(groupedByLocation);
                 
-                let patientNumber = 1;
-                const doctorGroups = Object.keys(groupedByDoctor);
-                
-                doctorGroups.forEach((doctor, groupIndex) => {
-                    const group = groupedByDoctor[doctor];
+                // 2. Iterate Locations
+                locationKeys.forEach((loc, locIndex) => {
+                    const locPatients = groupedByLocation[loc];
                     
-                    group.forEach((patient) => {
-                        output += `${patientNumber}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
-                        output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
-                        patientNumber++;
+                    // Header for this location
+                    output += `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${locPatients.length} pasien:\n`;
+                    
+                    // 3. Group by Doctor within this location
+                    const groupedByDoctor = {};
+                    locPatients.forEach(p => {
+                        if (!groupedByDoctor[p.doctor]) groupedByDoctor[p.doctor] = [];
+                        groupedByDoctor[p.doctor].push(p);
                     });
                     
-                    output += `\nRencana tindakan pukul ${group[0].time} WIB\n\n`;
-                    output += `Konsulen: ${doctor}\n`;
-                    
-                    if (group[0].byname) {
-                        if (group[0].byname === 'Tidak by name') {
-                            output += `Tidak by name\n`;
-                        } else {
-                            output += `By name ${group[0].byname}\n`;
+                    const doctorKeys = Object.keys(groupedByDoctor);
+                    let patientNumber = 1;
+
+                    doctorKeys.forEach((doc, docIndex) => {
+                        const group = groupedByDoctor[doc];
+                        
+                        // List patients
+                        group.forEach(patient => {
+                            output += `${patientNumber}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
+                            output += `Rencana BAJAH dengan panduan USG di ${formatLoc(patient.location)} pada regio ${patient.regio}\n`;
+                            patientNumber++;
+                        });
+                        
+                        // Footer for this doctor group
+                        output += `\nRencana tindakan pukul ${group[0].time} WIB\n\n`;
+                        output += `Konsulen: ${doc}\n`;
+                        
+                        if (group[0].byname) {
+                            if (group[0].byname === 'Tidak by name') {
+                                output += `Tidak by name\n`;
+                            } else {
+                                output += `By name ${group[0].byname}\n`;
+                            }
                         }
-                    }
-                    
-                    if (groupIndex < doctorGroups.length - 1) {
-                        output += `\n`;
+
+                        // Add spacing if there are more doctors in this location
+                        if (docIndex < doctorKeys.length - 1) {
+                            output += `\n`; 
+                        }
+                    });
+
+                    // Add single spacing between locations (Changed from \n\n to \n)
+                    if (locIndex < locationKeys.length - 1) {
+                        output += `\n`; 
                     }
                 });
                 
-                output += `\nSenior: ${senior}\n`;
-                output += `Asisten: ${assistant}`;
-                
             } else {
-                patients.forEach((patient, index) => {
-                    output += `${index + 1}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
-                    output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
-                    output += `Rencana tindakan pukul ${patient.time} WIB\n`;
-                    output += `Konsulen: ${patient.doctor}\n`;
+                // --- Standard Mode Logic (Grouped by Location) ---
+                
+                // 1. Group by Location
+                const groupedByLocation = {};
+                patients.forEach(p => {
+                    const loc = p.location || 'Lokasi Belum Diisi';
+                    if (!groupedByLocation[loc]) groupedByLocation[loc] = [];
+                    groupedByLocation[loc].push(p);
+                });
+
+                const locationKeys = Object.keys(groupedByLocation);
+                
+                // 2. Iterate through Locations
+                locationKeys.forEach((loc, locIndex) => {
+                    const group = groupedByLocation[loc];
                     
-                    if (patient.byname) {
-                        if (patient.byname === 'Tidak by name') {
-                            output += `Tidak by name\n`;
-                        } else {
-                            output += `By name ${patient.byname}\n`;
+                    // Header for this location group
+                    output += `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${group.length} pasien:\n`;
+
+                    // List patients in this group (Restart numbering)
+                    group.forEach((patient, pIndex) => {
+                        output += `${pIndex + 1}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
+                        output += `Rencana BAJAH dengan panduan USG di ${formatLoc(patient.location)} pada regio ${patient.regio}\n`;
+                        output += `Rencana tindakan pukul ${patient.time} WIB\n`;
+                        output += `Konsulen: ${patient.doctor}\n`;
+                        
+                        if (patient.byname) {
+                            if (patient.byname === 'Tidak by name') {
+                                output += `Tidak by name\n`;
+                            } else {
+                                output += `By name ${patient.byname}\n`;
+                            }
                         }
-                    }
-                    
-                    output += `Senior: ${senior}\n`;
-                    output += `Asisten: ${assistant}\n`;
-                    if (index < patients.length - 1) {
-                        output += '';
+                        
+                        output += `Senior: ${patient.senior}\n`;
+                        output += `Asisten: ${patient.assistant}\n`;
+                    });
+
+                    // Add spacing between location groups
+                    if (locIndex < locationKeys.length - 1) {
+                        output += `\n`; 
                     }
                 });
             }
@@ -600,10 +844,11 @@
             const outputText = document.getElementById('outputText').textContent;
             navigator.clipboard.writeText(outputText).then(() => {
                 const btn = document.getElementById('copyBtn');
-                btn.textContent = '✅ Tersalin!';
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Tersalin!';
                 btn.classList.add('copied');
                 setTimeout(() => {
-                    btn.textContent = '📋 Salin ke Clipboard';
+                    btn.innerHTML = originalText;
                     btn.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
@@ -611,10 +856,9 @@
             });
         }
         
+        // Initialize
         addPatient();
+        document.getElementById('dateInput').valueAsDate = new Date();
     </script>
 </body>
 </html>
-
-
-```
