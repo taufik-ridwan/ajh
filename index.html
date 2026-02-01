@@ -769,8 +769,6 @@
                     });
                     
                     // 4. Convert to Array and Sort Doctor Groups by the time of their first patient
-                    // (Since locPatients was already sorted by time, insertion order into groups is sorted,
-                    // but we do this explicitly to be robust)
                     const doctorGroups = Object.entries(groupedByDoctor).map(([docName, patientList]) => {
                         return {
                             doctor: docName,
@@ -791,7 +789,8 @@
                         // List patients
                         group.forEach(patient => {
                             output += `${patientNumber}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
-                            output += `Rencana BAJAH dengan panduan USG di ${formatLoc(patient.location)} pada regio ${patient.regio}\n`;
+                            // UPDATED LINE: Removed location redundancy for AJH Mode
+                            output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
                             patientNumber++;
                         });
                         
@@ -845,9 +844,16 @@
                     // List patients in this group (Restart numbering)
                     group.forEach((patient, pIndex) => {
                         output += `${pIndex + 1}.  ${patient.name}, ${patient.age} th, ${patient.mr}, dengan ${patient.diagnosis}\n`;
-                        output += `Rencana BAJAH dengan panduan USG di ${formatLoc(patient.location)} pada regio ${patient.regio}\n`;
-                        output += `Rencana tindakan pukul ${patient.time} WIB\n`;
-                        output += `Konsulen: ${patient.doctor}\n`;
+                        
+                        // CHANGED: Removed "di [location]"
+                        output += `Rencana BAJAH dengan panduan USG pada regio ${patient.regio}\n`;
+                        
+                        // CHANGED: Time format to .
+                        const timeStr = patient.time.replace(':', '.');
+                        output += `Rencana tindakan pukul ${timeStr} WIB\n`;
+                        
+                        // CHANGED: "Konsulen" -> "Acc"
+                        output += `Acc ${patient.doctor}\n`;
                         
                         if (patient.byname) {
                             if (patient.byname === 'Tidak by name') {
