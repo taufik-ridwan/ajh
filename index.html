@@ -718,8 +718,11 @@
                 return;
             }
             
+            // SORTING LOGIC: Sort all patients by time (ascending) first
+            patients.sort((a, b) => a.time.localeCompare(b.time));
+            
             const formattedDate = formatDate(dateInput);
-            const greeting = isAJH ? 'Selamat sore Mas dan Mbak' : 'Selanjutnya';
+            const defaultGreeting = isAJH ? 'Selamat sore Mas dan Mbak' : 'Selanjutnya';
             let output = '';
 
             // Helper to format location for output (Radiologi -> radiologi)
@@ -736,14 +739,27 @@
                     groupedByLocation[loc].push(p);
                 });
 
-                const locationKeys = Object.keys(groupedByLocation);
+                // Sort Locations: Radiologi first, then ICC, then others
+                const locationPriority = ['Radiologi', 'ICC'];
+                const locationKeys = Object.keys(groupedByLocation).sort((a, b) => {
+                    const idxA = locationPriority.indexOf(a);
+                    const idxB = locationPriority.indexOf(b);
+                    
+                    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+                    if (idxA !== -1) return -1;
+                    if (idxB !== -1) return 1;
+                    return a.localeCompare(b);
+                });
                 
                 // 2. Iterate Locations
                 locationKeys.forEach((loc, locIndex) => {
                     const locPatients = groupedByLocation[loc];
                     
+                    // Dynamic Greeting: "Selamat sore..." for first group, "Selanjutnya" for others
+                    const currentGreeting = (locIndex === 0) ? 'Selamat sore Mas dan Mbak' : 'Selanjutnya';
+                    
                     // Header for this location
-                    output += `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${locPatients.length} pasien:\n`;
+                    output += `${currentGreeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${locPatients.length} pasien:\n`;
                     
                     // 3. Group by Doctor within this location
                     const groupedByDoctor = {};
@@ -752,11 +768,25 @@
                         groupedByDoctor[p.doctor].push(p);
                     });
                     
-                    const doctorKeys = Object.keys(groupedByDoctor);
+                    // 4. Convert to Array and Sort Doctor Groups by the time of their first patient
+                    // (Since locPatients was already sorted by time, insertion order into groups is sorted,
+                    // but we do this explicitly to be robust)
+                    const doctorGroups = Object.entries(groupedByDoctor).map(([docName, patientList]) => {
+                        return {
+                            doctor: docName,
+                            patients: patientList,
+                            startTime: patientList[0].time // Use earliest time in group for sorting
+                        };
+                    });
+                    
+                    // Sort the doctor groups themselves by time
+                    doctorGroups.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
                     let patientNumber = 1;
 
-                    doctorKeys.forEach((doc, docIndex) => {
-                        const group = groupedByDoctor[doc];
+                    doctorGroups.forEach((groupObj, docIndex) => {
+                        const group = groupObj.patients;
+                        const doc = groupObj.doctor;
                         
                         // List patients
                         group.forEach(patient => {
@@ -766,7 +796,9 @@
                         });
                         
                         // Footer for this doctor group
-                        output += `\nRencana tindakan pukul ${group[0].time} WIB\n\n`;
+                        const timeStr = group[0].time.replace(':', '.');
+                        output += `\nRencana tindakan pukul ${timeStr} WIB\n\n`;
+                        
                         output += `Konsulen: ${doc}\n`;
                         
                         if (group[0].byname) {
@@ -778,12 +810,12 @@
                         }
 
                         // Add spacing if there are more doctors in this location
-                        if (docIndex < doctorKeys.length - 1) {
+                        if (docIndex < doctorGroups.length - 1) {
                             output += `\n`; 
                         }
                     });
 
-                    // Add single spacing between locations (Changed from \n\n to \n)
+                    // Add spacing between locations
                     if (locIndex < locationKeys.length - 1) {
                         output += `\n`; 
                     }
@@ -805,9 +837,10 @@
                 // 2. Iterate through Locations
                 locationKeys.forEach((loc, locIndex) => {
                     const group = groupedByLocation[loc];
+                    // 'group' is already sorted by time because 'patients' was sorted globally
                     
                     // Header for this location group
-                    output += `${greeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${group.length} pasien:\n`;
+                    output += `${defaultGreeting}, mohon izin menyampaikan rencana BAJAH dengan panduan USG di ${formatLoc(loc)}, ada ${group.length} pasien:\n`;
 
                     // List patients in this group (Restart numbering)
                     group.forEach((patient, pIndex) => {
